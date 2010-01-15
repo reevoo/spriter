@@ -67,14 +67,14 @@ class SpriterTest < Test::Unit::TestCase
       expected_css = <<-CSS
         .green1 {
           width: 10px;
-          background: url(/images/sprites.png) 0 0px; /* green.png */
+          background: url(/images/sprites.png) 0 0; /* green.png */
           height: 20px;
         }
         .red {
           background: url(/images/sprites.png) 0 -20px; /* red.png */
         }
         .green2 {
-          background: url(/images/sprites.png) 0 0px; /* green.png */
+          background: url(/images/sprites.png) 0 0; /* green.png */
         }
       CSS
       assert_equal expected_css, @new_css

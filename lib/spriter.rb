@@ -29,9 +29,8 @@ class Spriter
       indent = $1
       image = $2.gsub(/(?:^['"]|['"]$)/, '')
       add_image(image)
-      "#{indent}background: url(#{@sprite_image_url}) 0 #{-y_offset(image)}px; /* #{image} */"
+      "#{indent}background: url(#{@sprite_image_url}) 0 #{-y_offset(image)}#{y_offset(image) == 0 ? '' : 'px'}; /* #{image} */"
     end
-
     generate_sprite_image
 
     new_css
