@@ -2,6 +2,12 @@ require File.join(File.dirname(__FILE__), *%w[ test_helper ])
 
 class SpriterTest < Test::Unit::TestCase
 
+  def setup
+    Spriter.assets_path = File.join(File.dirname(__FILE__), *%w[ fixtures images ])
+    Spriter.sprite_image_path = File.join(File.dirname(__FILE__), *%w[ temp sprites.png ])
+    Spriter.sprite_image_url = '/images/sprites.png'
+  end
+
   def teardown
     File.delete(Spriter.sprite_image_path) if File.exist? Spriter.sprite_image_path
   end
