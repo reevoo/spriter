@@ -39,7 +39,7 @@ class Rack::SpriterTest < Test::Unit::TestCase
         File.join(Rails.root, 'public', 'stylesheets')
       ].each { |path| Dir.mkdir(path) unless File.exist? path }
 
-      sprite_path = File.join(Rails.root, 'public', 'stylesheets', 'screen.css.sprite')
+      sprite_path = File.join(Rails.root, 'public', 'stylesheets', 'screen.spriter')
       File.open(sprite_path, 'w') do |f|
         f << ".test { -spriter-background: 'red.png'; }"
       end

@@ -138,13 +138,13 @@ class SpriterTest < Test::Unit::TestCase
     end
   end
 
-  context 'converting some .css.sprite files' do
+  context 'converting some .spriter files' do
     setup do
       @first_css_path = File.join(File.dirname(__FILE__), 'temp/first.css')
       @second_css_path = File.join(File.dirname(__FILE__), 'temp/second.css')
 
-      @first_sprite_path = @first_css_path + '.sprite'
-      @second_sprite_path = @second_css_path + '.sprite'
+      @first_sprite_path = @first_css_path.sub(/\.css$/, '.spriter')
+      @second_sprite_path = @second_css_path.sub(/\.css$/, '.spriter')
 
       File.open(@first_sprite_path, 'w'){ |f| f << ".test1 { -spriter-background: 'red.png'; }" }
       File.open(@second_sprite_path, 'w'){ |f| f << ".test2 { -spriter-background: 'green.png'; }" }
@@ -153,7 +153,7 @@ class SpriterTest < Test::Unit::TestCase
     end
 
     teardown do
-      files = Dir.glob(File.join(File.dirname(__FILE__), 'temp/*.css{.sprite,}'))
+      files = Dir.glob(File.join(File.dirname(__FILE__), 'temp/*.{css,spriter}'))
       File.delete(*files)
     end
 

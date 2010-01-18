@@ -29,8 +29,8 @@ module Rack
 
     def generated_css(name)
       @generated_css ||= (
-        paths = Dir.glob(File.join(Rails.root, 'public', 'stylesheets', '*.css.sprite'))
-        names = paths.map{ |p| p =~ %r{stylesheets/(.+)\.css\.sprite$}; $1 }
+        paths = Dir.glob(File.join(Rails.root, 'public', 'stylesheets', '*.spriter'))
+        names = paths.map{ |p| p =~ %r{stylesheets/(.+)\.spriter$}; $1 }
         files = paths.map{ |p| File.new(p, 'r') }
         css = ::Spriter.transform(*files)
         css = [css] unless css.is_a? Array
