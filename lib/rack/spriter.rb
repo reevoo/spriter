@@ -23,11 +23,20 @@ module Rack
     private
     def generate_css(env)
       if Rack::Request.new(env).path =~ %r{stylesheets\/(.+)\.css$}
-        spriter_css_path = File.join(Rails.root, 'public', 'stylesheets', "#{$1}.css.sprite")
-        if File.exists? spriter_css_path
-          ::Spriter.transform(File.read(spriter_css_path))
-        end
+        generated_css($1)
       end
+    end
+
+    def generated_css(name)
+      @generated_css ||= (
+        paths = Dir.glob(File.join(Rails.root, 'public', 'stylesheets', '*.css.sprite'))
+        names = paths.map{ |p| p =~ %r{stylesheets/(.+)\.css\.sprite$}; $1 }
+        files = paths.map{ |p| File.new(p, 'r') }
+        css = ::Spriter.transform(*files)
+        css = [css] unless css.is_a? Array
+        Hash[*names.zip(css).flatten]
+      )
+      @generated_css[name]
     end
   end
 end
