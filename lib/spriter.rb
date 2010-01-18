@@ -10,6 +10,10 @@ class Spriter
       new(assets_path, sprite_image_path, sprite_image_url).transform(*args)
     end
 
+    def transform_files(*args)
+      new(assets_path, sprite_image_path, sprite_image_url).transform_files(*args)
+    end
+
     def image_dimensions(path)
       magick_image = MiniMagick::Image.from_file(path)
       return magick_image[:width], magick_image[:height]
@@ -42,6 +46,14 @@ class Spriter
       new_css.first
     else
       new_css
+    end
+  end
+
+  def transform_files(*paths)
+    files = paths.map{ |p| File.open(p, 'r') }
+    generated_css = transform(*files)
+    paths.map{ |p| p.sub(/\.sprite$/, '') }.each_with_index do |output_path, i|
+      File.open(output_path, 'w'){ |f| f << generated_css[i] }
     end
   end
 

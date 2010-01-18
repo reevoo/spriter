@@ -138,4 +138,40 @@ class SpriterTest < Test::Unit::TestCase
     end
   end
 
+  context 'converting some .css.sprite files' do
+    setup do
+      @first_css_path = File.join(File.dirname(__FILE__), 'temp/first.css')
+      @second_css_path = File.join(File.dirname(__FILE__), 'temp/second.css')
+
+      @first_sprite_path = @first_css_path + '.sprite'
+      @second_sprite_path = @second_css_path + '.sprite'
+
+      File.open(@first_sprite_path, 'w'){ |f| f << ".test1 { -spriter-background: 'red.png'; }" }
+      File.open(@second_sprite_path, 'w'){ |f| f << ".test2 { -spriter-background: 'green.png'; }" }
+
+      @returned = Spriter.transform_files(@first_sprite_path, @second_sprite_path)
+    end
+
+    teardown do
+      files = Dir.glob(File.join(File.dirname(__FILE__), 'temp/*.css{.sprite,}'))
+      File.delete(*files)
+    end
+
+    should 'produce corresponding set of .css files' do
+      assert File.exist?(@first_css_path)
+      assert File.exist?(@second_css_path)
+    end
+    should 'write the CSS to the files' do
+      assert_equal ".test1 { background: url(/images/sprites.png) 0 0; /* red.png */ }", File.read(@first_css_path)
+      assert_equal ".test2 { background: url(/images/sprites.png) 0 -50px; /* green.png */ }", File.read(@second_css_path)
+    end
+    should 'produce a single sprite image with the expected dimensions' do
+      assert File.exist?(Spriter.sprite_image_path), 'Expected a sprite image file to be created'
+      assert_equal [50, 70], Spriter.image_dimensions(Spriter.sprite_image_path)
+    end
+    should 'return the output paths' do
+      assert_equal [@first_css_path, @second_css_path], @returned
+    end
+  end
+
 end
