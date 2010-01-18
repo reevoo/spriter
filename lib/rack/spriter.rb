@@ -5,11 +5,11 @@ module Rack
 
     File = ::File
 
-    def initialize(app)
+    def initialize(app, options = {})
       @app = app
-      ::Spriter.assets_path = File.join(Rails.root, *%w[ public images sprite_assets ])
-      ::Spriter.sprite_image_path = File.join(Rails.root, *%w[ public images sprites.png ])
-      ::Spriter.sprite_image_url = '/images/sprites.png'
+      ::Spriter.assets_path = options[:assets_path] || File.join(Rails.root, *%w[ public images sprite_assets ])
+      ::Spriter.sprite_image_path = options[:sprite_image_path] || File.join(Rails.root, *%w[ public images sprites.png ])
+      ::Spriter.sprite_image_url = options[:sprite_image_url] || '/images/sprites.png'
     end
 
     def call(env)
