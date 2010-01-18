@@ -109,4 +109,33 @@ class SpriterTest < Test::Unit::TestCase
     end
   end
 
+  context 'multiple CSS files with no overlapping rules' do
+    setup do
+      css1 = ".test1 { -spriter-background: 'red.png'; }"
+      css2 = ".test2 { -spriter-background: 'green.png'; }"
+      @new_css = Spriter.transform(css1, css2)
+    end
+    should 'produce the expected CSS' do
+      assert_equal 2, @new_css.length
+      assert_equal ".test1 { background: url(/images/sprites.png) 0 0; /* red.png */ }", @new_css.first
+      assert_equal ".test2 { background: url(/images/sprites.png) 0 -50px; /* green.png */ }", @new_css.last
+    end
+    should 'produce a single sprite image with the expected dimensions' do
+      assert File.exist?(Spriter.sprite_image_path), 'Expected a sprite image file to be created'
+      assert_equal [50, 70], Spriter.image_dimensions(Spriter.sprite_image_path)
+    end
+  end
+
+  context 'multiple CSS files with overlapping rules' do
+    setup do
+      css1 = ".test1 { -spriter-background: 'red.png'; }\n.test2 { -spriter-background: 'green.png'; }"
+      css2 = ".test3 { -spriter-background: 'red.png'; }\n.test4 { -spriter-background: 'green.png'; }"
+      @new_css = Spriter.transform(css1, css2)
+    end
+    should 'use the same background positions for the images' do
+      assert_equal ".test1 { background: url(/images/sprites.png) 0 0; /* red.png */ }\n.test2 { background: url(/images/sprites.png) 0 -50px; /* green.png */ }", @new_css.first
+      assert_equal ".test3 { background: url(/images/sprites.png) 0 0; /* red.png */ }\n.test4 { background: url(/images/sprites.png) 0 -50px; /* green.png */ }", @new_css.last
+    end
+  end
+
 end

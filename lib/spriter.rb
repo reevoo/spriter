@@ -6,8 +6,8 @@ class Spriter
     attr_accessor :sprite_image_path
     attr_accessor :sprite_image_url
 
-    def transform(css)
-      new(assets_path, sprite_image_path, sprite_image_url).transform(css)
+    def transform(*args)
+      new(assets_path, sprite_image_path, sprite_image_url).transform(*args)
     end
 
     def image_dimensions(path)
@@ -23,21 +23,26 @@ class Spriter
     @current_offset, @max_width = 0, 0
   end
 
-  def transform(css)
-
-    css = css.read if css.respond_to? :read
-
+  def transform(*inputs)
     image_matcher = /([^a-z])-spriter-background:\s*([^;\}]+)([;\}])/
-    new_css = css.gsub(image_matcher) do |matched|
-      indent = $1
-      terminator = $3
-      image = $2.strip.gsub(/(?:^['"]|['"]$)/, '')
-      add_image(image)
-      "#{indent}background: url(#{@sprite_image_url}) 0 #{-y_offset(image)}#{y_offset(image) == 0 ? '' : 'px'}#{terminator} /* #{image} */"
+    new_css = [*inputs].inject([]) do |new_css, css|
+      css = css.read if css.respond_to? :read
+      new_css << css.gsub(image_matcher) do |matched|
+        indent = $1
+        terminator = $3
+        image = $2.strip.gsub(/(?:^['"]|['"]$)/, '')
+        add_image(image)
+        "#{indent}background: url(#{@sprite_image_url}) 0 #{-y_offset(image)}#{y_offset(image) == 0 ? '' : 'px'}#{terminator} /* #{image} */"
+      end
     end
+
     generate_sprite_image
 
-    new_css
+    if new_css.length == 1
+      new_css.first
+    else
+      new_css
+    end
   end
 
   def add_image(image)
