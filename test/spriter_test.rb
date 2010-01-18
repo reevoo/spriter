@@ -97,7 +97,7 @@ class SpriterTest < Test::Unit::TestCase
       css_io = StringIO.new('.test { -spriter-background: "red.png"; }')
       @new_css = Spriter.transform(css_io)
     end
-    should 'product the expected CSS' do
+    should 'produce the expected CSS' do
       assert_equal '.test { background: url(/images/sprites.png) 0 0; /* red.png */ }', @new_css
     end
   end
