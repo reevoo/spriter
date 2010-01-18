@@ -24,6 +24,9 @@ class Spriter
   end
 
   def transform(css)
+
+    css = css.read if css.respond_to? :read
+
     image_matcher = /([^a-z])-spriter-background:\s*([^;]+);/
     new_css = css.gsub(image_matcher) do |matched|
       indent = $1
