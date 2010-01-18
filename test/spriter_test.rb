@@ -102,4 +102,11 @@ class SpriterTest < Test::Unit::TestCase
     end
   end
 
+  context 'a spriter rule terminated by a closing brace' do
+    setup { @new_css = Spriter.transform('.test { -spriter-background: "red.png" }') }
+    should 'produce the expected CSS' do
+      assert_equal '.test { background: url(/images/sprites.png) 0 0} /* red.png */', @new_css
+    end
+  end
+
 end

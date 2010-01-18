@@ -27,12 +27,13 @@ class Spriter
 
     css = css.read if css.respond_to? :read
 
-    image_matcher = /([^a-z])-spriter-background:\s*([^;]+);/
+    image_matcher = /([^a-z])-spriter-background:\s*([^;\}]+)([;\}])/
     new_css = css.gsub(image_matcher) do |matched|
       indent = $1
-      image = $2.gsub(/(?:^['"]|['"]$)/, '')
+      terminator = $3
+      image = $2.strip.gsub(/(?:^['"]|['"]$)/, '')
       add_image(image)
-      "#{indent}background: url(#{@sprite_image_url}) 0 #{-y_offset(image)}#{y_offset(image) == 0 ? '' : 'px'}; /* #{image} */"
+      "#{indent}background: url(#{@sprite_image_url}) 0 #{-y_offset(image)}#{y_offset(image) == 0 ? '' : 'px'}#{terminator} /* #{image} */"
     end
     generate_sprite_image
 
