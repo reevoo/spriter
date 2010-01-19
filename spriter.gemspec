@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ["Reevoo"]
   s.date = %q{2010-01-18}
   s.extra_rdoc_files = ["README"]
-  s.files = ["Rakefile", "test", "lib/rack", "lib/rack/spriter.rb", "lib/spriter.rb", "lib/tasks", "lib/tasks/spriter.rake", "README"]
+  s.files = ["Rakefile", "test", "lib/rack", "lib/rack/spriter.rb", "lib/spriter.rb", "tasks/spriter.rake", "README"]
   s.homepage = %q{http://www.reevoo.com}
   s.rdoc_options = ["--main", "README"]
   s.require_paths = ["lib"]
