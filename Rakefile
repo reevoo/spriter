@@ -24,7 +24,7 @@ spec = Gem::Specification.new do |s|
   s.rdoc_options      = %w(--main README)
 
   # Add any extra files to include in the gem (like your README)
-  s.files             = %w(Rakefile) + Dir.glob("{test,lib/**/*,tasks/**/*}")
+  s.files             = %w(Rakefile) + Dir.glob("{test,lib/**/*}")
   s.require_paths     = ["lib"]
 
   s.add_development_dependency("shoulda")
