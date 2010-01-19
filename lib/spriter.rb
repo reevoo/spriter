@@ -75,6 +75,6 @@ class Spriter
   def generate_sprite_image
     return unless @images.any?
     source_paths = @images.map{ |file| File.join(@assets_path, file) }
-    system(*['convert', source_paths, '-gravity', 'West', '-background', 'transparent', '-append', @sprite_image_path].flatten) or raise "Failed to generate sprite"
+    system(*['convert', source_paths, '-gravity', 'West', '-background', '#FFFFFF00', '-append', @sprite_image_path].flatten) or raise "Failed to generate sprite"
   end
 end
