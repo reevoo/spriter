@@ -36,7 +36,7 @@ class Spriter
         terminator = $3
         image = $2.strip.gsub(/(?:^['"]|['"]$)/, '')
         add_image(image)
-        "#{indent}background: url(#{@sprite_image_url}) 0 #{-y_offset(image)}#{y_offset(image) == 0 ? '' : 'px'}#{terminator} /* #{image} */"
+        "#{indent}background: url(#{@sprite_image_url}) no-repeat 0 #{-y_offset(image)}#{y_offset(image) == 0 ? '' : 'px'}#{terminator} /* #{image} */"
       end
     end
 

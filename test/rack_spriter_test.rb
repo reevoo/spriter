@@ -47,7 +47,7 @@ class Rack::SpriterTest < Test::Unit::TestCase
       get '/stylesheets/screen.css'
     end
     should "render sprited css" do
-      assert_equal ".test { background: url(/images/sprites.png) 0 0; /* red.png */ }", last_response.body
+      assert_equal ".test { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */ }", last_response.body
     end
 
     context "when it is requested again" do

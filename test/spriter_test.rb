@@ -73,14 +73,14 @@ class SpriterTest < Test::Unit::TestCase
       expected_css = <<-CSS
         .green1 {
           width: 10px;
-          background: url(/images/sprites.png) 0 0; /* green.png */
+          background: url(/images/sprites.png) no-repeat 0 0; /* green.png */
           height: 20px;
         }
         .red {
-          background: url(/images/sprites.png) 0 -20px; /* red.png */
+          background: url(/images/sprites.png) no-repeat 0 -20px; /* red.png */
         }
         .green2 {
-          background: url(/images/sprites.png) 0 0; /* green.png */
+          background: url(/images/sprites.png) no-repeat 0 0; /* green.png */
         }
       CSS
       assert_equal expected_css, @new_css
@@ -98,14 +98,14 @@ class SpriterTest < Test::Unit::TestCase
       @new_css = Spriter.transform(css_io)
     end
     should 'produce the expected CSS' do
-      assert_equal '.test { background: url(/images/sprites.png) 0 0; /* red.png */ }', @new_css
+      assert_equal '.test { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */ }', @new_css
     end
   end
 
   context 'a spriter rule terminated by a closing brace' do
     setup { @new_css = Spriter.transform('.test { -spriter-background: "red.png" }') }
     should 'produce the expected CSS' do
-      assert_equal '.test { background: url(/images/sprites.png) 0 0} /* red.png */', @new_css
+      assert_equal '.test { background: url(/images/sprites.png) no-repeat 0 0} /* red.png */', @new_css
     end
   end
 
@@ -117,8 +117,8 @@ class SpriterTest < Test::Unit::TestCase
     end
     should 'produce the expected CSS' do
       assert_equal 2, @new_css.length
-      assert_equal ".test1 { background: url(/images/sprites.png) 0 0; /* red.png */ }", @new_css.first
-      assert_equal ".test2 { background: url(/images/sprites.png) 0 -50px; /* green.png */ }", @new_css.last
+      assert_equal ".test1 { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */ }", @new_css.first
+      assert_equal ".test2 { background: url(/images/sprites.png) no-repeat 0 -50px; /* green.png */ }", @new_css.last
     end
     should 'produce a single sprite image with the expected dimensions' do
       assert File.exist?(Spriter.sprite_image_path), 'Expected a sprite image file to be created'
@@ -133,8 +133,8 @@ class SpriterTest < Test::Unit::TestCase
       @new_css = Spriter.transform(css1, css2)
     end
     should 'use the same background positions for the images' do
-      assert_equal ".test1 { background: url(/images/sprites.png) 0 0; /* red.png */ }\n.test2 { background: url(/images/sprites.png) 0 -50px; /* green.png */ }", @new_css.first
-      assert_equal ".test3 { background: url(/images/sprites.png) 0 0; /* red.png */ }\n.test4 { background: url(/images/sprites.png) 0 -50px; /* green.png */ }", @new_css.last
+      assert_equal ".test1 { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */ }\n.test2 { background: url(/images/sprites.png) no-repeat 0 -50px; /* green.png */ }", @new_css.first
+      assert_equal ".test3 { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */ }\n.test4 { background: url(/images/sprites.png) no-repeat 0 -50px; /* green.png */ }", @new_css.last
     end
   end
 
@@ -162,8 +162,8 @@ class SpriterTest < Test::Unit::TestCase
       assert File.exist?(@second_css_path)
     end
     should 'write the CSS to the files' do
-      assert_equal ".test1 { background: url(/images/sprites.png) 0 0; /* red.png */ }", File.read(@first_css_path)
-      assert_equal ".test2 { background: url(/images/sprites.png) 0 -50px; /* green.png */ }", File.read(@second_css_path)
+      assert_equal ".test1 { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */ }", File.read(@first_css_path)
+      assert_equal ".test2 { background: url(/images/sprites.png) no-repeat 0 -50px; /* green.png */ }", File.read(@second_css_path)
     end
     should 'produce a single sprite image with the expected dimensions' do
       assert File.exist?(Spriter.sprite_image_path), 'Expected a sprite image file to be created'
