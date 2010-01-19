@@ -28,14 +28,17 @@ module Rack
     end
 
     def generated_css(name)
-      @generated_css ||= (
-        paths = Dir.glob(File.join(Rails.root, 'public', 'stylesheets', '*.spriter'))
+      paths = Dir.glob(File.join(Rails.root, 'public', 'stylesheets', '*.spriter'))
+      files = paths.map{ |p| File.new(p, 'r') }
+
+      if @generated_css.nil? or files.max{ |a,b| a.mtime <=> b.mtime }.mtime > @generated_at
         names = paths.map{ |p| p =~ %r{stylesheets/(.+)\.spriter$}; $1 }
-        files = paths.map{ |p| File.new(p, 'r') }
         css = ::Spriter.transform(*files)
         css = [css] unless css.is_a? Array
-        Hash[*names.zip(css).flatten]
-      )
+        @generated_at = Time.now
+        @generated_css = Hash[*names.zip(css).flatten]
+      end
+
       @generated_css[name]
     end
   end
