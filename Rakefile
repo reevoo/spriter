@@ -14,7 +14,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "spriter"
-  s.version           = "0.4.0"
+  s.version           = "0.5.0"
   s.summary           = "Managers sprites and your css in a mega way."
   s.author            = "Reevoo"
   s.homepage          = "http://www.reevoo.com"

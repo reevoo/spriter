@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{spriter}
-  s.version = "0.4.0"
+  s.version = "0.5.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Reevoo"]
-  s.date = %q{2010-01-18}
+  s.date = %q{2010-01-19}
   s.extra_rdoc_files = ["README"]
   s.files = ["Rakefile", "test", "lib/rack", "lib/rack/spriter.rb", "lib/spriter.rb", "tasks/spriter.rake", "README"]
   s.homepage = %q{http://www.reevoo.com}
