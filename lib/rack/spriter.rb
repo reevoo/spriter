@@ -23,7 +23,9 @@ module Rack
     private
     def generate_css(env)
       if Rack::Request.new(env).path =~ %r{stylesheets\/(.+)\.css$}
-        generated_css($1)
+        name = $1
+        spriter_path = File.join(Rails.root, 'public', 'stylesheets', "#{name}.spriter")
+        generated_css($1) if File.exist? spriter_path
       end
     end
 

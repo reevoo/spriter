@@ -67,4 +67,12 @@ class Rack::SpriterTest < Test::Unit::TestCase
       end
     end
   end
+
+  context "when some css is requested and there is no spriter file" do
+    setup{ get '/stylesheets/nothing.css' }
+    should "delegate" do
+      assert_equal 200, last_response.status
+      assert_equal "all is good", last_response.body
+    end
+  end
 end
