@@ -31,6 +31,7 @@ module Rack
 
     def generated_css(name)
       paths = Dir.glob(File.join(Rails.root, 'public', 'stylesheets', '*.spriter'))
+      paths.sort!
       files = paths.map{ |p| File.new(p, 'r') }
 
       if @generated_css.nil? or files.max{ |a,b| a.mtime <=> b.mtime }.mtime > @generated_at
