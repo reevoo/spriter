@@ -14,17 +14,15 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "spriter"
-  s.version           = "0.6.0"
+  s.version           = "0.7.0"
   s.summary           = "Managers sprites and your css in a mega way."
   s.author            = "Reevoo"
   s.homepage          = "http://www.reevoo.com"
 
-  s.has_rdoc          = true
-  s.extra_rdoc_files  = %w(README)
-  s.rdoc_options      = %w(--main README)
+  s.has_rdoc          = false
 
   # Add any extra files to include in the gem (like your README)
-  s.files             = %w(Rakefile) + Dir.glob("{test,lib/**/*}")
+  s.files             = %w(Rakefile) + Dir.glob("{README*,test,lib/**/*}")
   s.require_paths     = ["lib"]
 
   s.add_development_dependency("shoulda")
