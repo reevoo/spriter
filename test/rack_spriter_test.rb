@@ -5,21 +5,15 @@ require 'test/unit'
 require 'rack/test'
 require 'mocha'
 
-module Rails
-  def self.root
-    File.join(File.dirname(__FILE__), *%w[ temp ])
-  end
-end
-
-
 class Rack::SpriterTest < Test::Unit::TestCase
   include Rack::Test::Methods
 
   def app
     app = lambda{|env| [200, {"Content-Type" => "text/plain"}, ["all is good"]]}
+    stylesheets_path = File.join(File.dirname(__FILE__), *%w[ temp public stylesheets ])
     assets_path = File.join(File.dirname(__FILE__), *%w[ fixtures images ])
     sprite_image_path = File.join(File.dirname(__FILE__), *%w[ temp sprites.png ])
-    Rack::Spriter.new(app, :assets_path => assets_path, :sprite_image_path => sprite_image_path)
+    Rack::Spriter.new(app, :stylesheets_path => stylesheets_path, :assets_path => assets_path, :sprite_image_path => sprite_image_path)
   end
 
   context "when css isn't being requested" do
@@ -34,12 +28,11 @@ class Rack::SpriterTest < Test::Unit::TestCase
 
   context "when some css is requested" do
     setup do
-      [
-        File.join(Rails.root, 'public'),
-        File.join(Rails.root, 'public', 'stylesheets')
-      ].each { |path| Dir.mkdir(path) unless File.exist? path }
+      public_path = File.join(File.dirname(__FILE__), 'temp', 'public')
+      stylesheets_path = File.join(public_path, 'stylesheets')
+      [ public_path, stylesheets_path ].each { |path| Dir.mkdir(path) unless File.exist? path }
 
-      @sprite_path = File.join(Rails.root, 'public', 'stylesheets', 'screen.spriter')
+      @sprite_path = File.join(stylesheets_path, 'screen.spriter')
       File.open(@sprite_path, 'w') do |f|
         f << ".test { -spriter-background: 'red.png'; }"
       end

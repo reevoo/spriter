@@ -6,10 +6,28 @@ module Rack
     File = ::File
 
     def initialize(app, options = {})
+      options = default_options.merge(options)
       @app = app
-      ::Spriter.assets_path = options[:assets_path] || File.join(Rails.root, *%w[ public images sprite_assets ])
-      ::Spriter.sprite_image_path = options[:sprite_image_path] || File.join(Rails.root, *%w[ public images sprites.png ])
-      ::Spriter.sprite_image_url = options[:sprite_image_url] || '/images/sprites.png'
+      @stylesheets_path = options[:stylesheets_path]
+      ::Spriter.assets_path = options[:assets_path]
+      ::Spriter.sprite_image_path = options[:sprite_image_path]
+      ::Spriter.sprite_image_url = options[:sprite_image_url]
+    end
+
+    def default_options
+      defaults = {
+        :sprite_image_url => '/images/sprites.png'
+      }
+
+      if defined? Rails
+        defaults.merge(
+          :stylesheets_path => File.join(Rails.root, *%w[ public stylesheets ]),
+          :assets_path => File.join(Rails.root, *%w[ public images sprite_assets ]),
+          :sprite_image_path => File.join(Rails.root, *%w[ public images sprites.png ])
+        )
+      else
+        defaults
+      end
     end
 
     def call(env)
@@ -24,13 +42,13 @@ module Rack
     def generate_css(env)
       if Rack::Request.new(env).path =~ %r{stylesheets\/(.+)\.css$}
         name = $1
-        spriter_path = File.join(Rails.root, 'public', 'stylesheets', "#{name}.spriter")
+        spriter_path = File.join(@stylesheets_path, "#{name}.spriter")
         generated_css($1) if File.exist? spriter_path
       end
     end
 
     def generated_css(name)
-      paths = Dir.glob(File.join(Rails.root, 'public', 'stylesheets', '*.spriter'))
+      paths = Dir.glob(File.join(@stylesheets_path, '*.spriter'))
       paths.sort!
       files = paths.map{ |p| File.new(p, 'r') }
 

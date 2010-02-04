@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Reevoo"]
-  s.date = %q{2010-01-26}
+  s.date = %q{2010-02-04}
   s.extra_rdoc_files = ["README"]
   s.files = ["Rakefile", "test", "lib/rack", "lib/rack/spriter.rb", "lib/spriter.rb", "README"]
   s.homepage = %q{http://www.reevoo.com}
