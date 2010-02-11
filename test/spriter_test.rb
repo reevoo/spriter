@@ -138,6 +138,27 @@ class SpriterTest < Test::Unit::TestCase
     end
   end
 
+  context 'converting one .spriter file' do
+    setup do
+      @first_css_path = File.join(File.dirname(__FILE__), 'temp/first.css')
+
+      @first_sprite_path = @first_css_path.sub(/\.css$/, '.spriter')
+
+      File.open(@first_sprite_path, 'w'){ |f| f << ".test1 { -spriter-background: 'red.png'; }" }
+
+      @returned = Spriter.transform_files(@first_sprite_path)
+    end
+
+    teardown do
+      files = Dir.glob(File.join(File.dirname(__FILE__), 'temp/*.{css,spriter}'))
+      File.delete(*files)
+    end
+
+    should 'write the CSS to the files' do
+      assert_equal ".test1 { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */ }", File.read(@first_css_path)
+    end
+  end
+
   context 'converting some .spriter files' do
     setup do
       @first_css_path = File.join(File.dirname(__FILE__), 'temp/first.css')
