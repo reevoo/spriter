@@ -51,7 +51,8 @@ class Spriter
 
   def transform_files(*paths)
     files = paths.map{ |p| File.open(p, 'r') }
-    generated_css = [*transform(*files)]
+    generated_css = transform(*files)
+    generated_css = [generated_css] unless generated_css.is_a? Array
     paths.map{ |p| p.sub(/\.spriter$/, '.css') }.each_with_index do |output_path, i|
       File.open(output_path, 'w'){ |f| f << generated_css[i] }
     end

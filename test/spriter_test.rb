@@ -144,7 +144,7 @@ class SpriterTest < Test::Unit::TestCase
 
       @first_sprite_path = @first_css_path.sub(/\.css$/, '.spriter')
 
-      File.open(@first_sprite_path, 'w'){ |f| f << ".test1 { -spriter-background: 'red.png'; }" }
+      File.open(@first_sprite_path, 'w'){ |f| f << ".test1 { -spriter-background: 'red.png';\n}" }
 
       @returned = Spriter.transform_files(@first_sprite_path)
     end
@@ -155,7 +155,7 @@ class SpriterTest < Test::Unit::TestCase
     end
 
     should 'write the CSS to the files' do
-      assert_equal ".test1 { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */ }", File.read(@first_css_path)
+      assert_equal ".test1 { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */\n}", File.read(@first_css_path)
     end
   end
 
