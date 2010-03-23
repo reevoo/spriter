@@ -14,7 +14,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "spriter"
-  s.version           = "0.9.0"
+  s.version           = "0.9.1"
   s.summary           = "Managers sprites and your css in a mega way."
   s.author            = "Reevoo"
   s.homepage          = "http://www.reevoo.com"
@@ -25,6 +25,7 @@ spec = Gem::Specification.new do |s|
   s.files             = %w(Rakefile) + Dir.glob("{README*,test,lib/**/*}")
   s.require_paths     = ["lib"]
 
+  s.add_dependency("mini_magick")
   s.add_development_dependency("shoulda")
 end
 
@@ -34,10 +35,6 @@ end
 # using GitHub, edit as appropriate.
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
-
-  # Generate the gemspec file for github.
-  file = File.dirname(__FILE__) + "/#{spec.name}.gemspec"
-  File.open(file, "w") {|f| f << spec.to_ruby }
 end
 
 # Generate documentation
