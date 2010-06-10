@@ -16,6 +16,10 @@ class Rack::SpriterTest < Test::Unit::TestCase
     Rack::Spriter.new(app, :stylesheets_path => stylesheets_path, :assets_path => assets_path, :sprite_image_path => sprite_image_path)
   end
 
+  def teardown
+    FileUtils.rm_rf(File.join(File.dirname(__FILE__), 'temp', 'public'))
+  end
+
   context "when css isn't being requested" do
     setup do
       get '/some/other/path'
