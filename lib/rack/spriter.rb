@@ -50,12 +50,12 @@ module Rack
     end
 
     def generated_css(name)
-      paths = Dir.glob(File.join(@stylesheets_path, '*.spriter'))
+      paths = Dir.glob(File.join(@stylesheets_path, '**/*.spriter'))
       paths.sort!
       files = paths.map{ |p| File.new(p, 'r') }
 
       if @generated_css.nil? or files.max{ |a,b| a.mtime <=> b.mtime }.mtime > @generated_at
-        names = paths.map{ |p| p =~ %r{([^/]+)\.spriter$}; $1 }
+        names = paths.map{ |p| p.sub(/\.spriter$/, '').sub(/^#{@stylesheets_path}\//, '') }
         css = ::Spriter.transform(*files)
         css = [css] unless css.is_a? Array
         @generated_at = Time.now

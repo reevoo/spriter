@@ -26,6 +26,27 @@ class Rack::SpriterTest < Test::Unit::TestCase
     end
   end
 
+  context "when some css is requested from a nested folder" do
+    setup do
+      public_path = File.join(File.dirname(__FILE__), 'temp', 'public')
+      stylesheets_path = File.join(public_path, 'stylesheets')
+      nested_path = File.join(stylesheets_path, 'foo')
+      [ public_path, stylesheets_path, nested_path ].each { |path| Dir.mkdir(path) unless File.exist? path }
+
+      @sprite_path = File.join(nested_path, 'screen.spriter')
+
+      File.open(@sprite_path, 'w') do |f|
+        f << ".test { -spriter-background: 'red.png'; }"
+      end
+
+      get '/stylesheets/foo/screen.css'
+    end
+
+    should "render sprited css" do
+      assert_equal ".test { background: url(/images/sprites.png) no-repeat 0 0; /* red.png */ }", last_response.body
+    end
+  end
+
   context "when some css is requested" do
     setup do
       public_path = File.join(File.dirname(__FILE__), 'temp', 'public')
