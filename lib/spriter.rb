@@ -69,7 +69,7 @@ class Spriter
   end
 
   def y_offset(image)
-    @y_offsets[image] or raise ArgumentError, 'Unknown image'
+    @y_offsets[image] or raise ArgumentError, "Unknown image (#{image})\nKnown images are: #{@images.join(', ')}"
   end
 
   def generate_sprite_image
