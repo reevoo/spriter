@@ -20,6 +20,8 @@ class Spriter
     end
   end
 
+  attr_reader :images
+
   def initialize(assets_path = Spriter.assets_path, sprite_image_path = Spriter.sprite_image_path, sprite_image_url = Spriter.sprite_image_url)
     @assets_path, @sprite_image_path, @sprite_image_url = assets_path, sprite_image_path, sprite_image_url
     @images = []

@@ -70,18 +70,39 @@ class Rack::SpriterTest < Test::Unit::TestCase
 
     context "when it is requested again" do
       setup{ get '/stylesheets/screen.css' }
-      before_should 'not generate it again' do
-        Spriter.expects(:transform).never
+      before_should 'not ask Spriter to transform the CSS' do
+        Spriter.any_instance.expects(:transform).never
+        Spriter.any_instance.expects(:generate_sprite_image).never
       end
     end
 
-    context "when the spriter file is modified and it is requested again" do
+    context "when the spriter file is modified but the sprite images haven't changed and it is requested again" do
       setup do
         File.any_instance.stubs(:mtime).returns(Time.now + 10)
         get '/stylesheets/screen.css'
       end
-      before_should 'generate it again' do
-        Spriter.expects(:transform).once
+      before_should 'ask Spriter to transform it again' do
+        Spriter.any_instance.expects(:transform).once
+      end
+      before_should 'not generate a new image file' do
+        Spriter.any_instance.expects(:generate_sprite_image).never
+      end
+    end
+
+    context "when the spriter file is modified so that the sprite images have changed and it is requested again" do
+      setup do
+        File.open(@sprite_path, 'w'){|f| f << ".test { -spriter-background: 'green.png'; }" }
+        File.any_instance.stubs(:mtime).returns(Time.now + 10)
+        get '/stylesheets/screen.css'
+      end
+      before_should 'ask Spriter to transform it again' do
+        Spriter.any_instance.expects(:transform).once
+      end
+      before_should 'generate a new image file' do
+        Spriter.any_instance.expects(:generate_sprite_image).once
+      end
+      should 'respond with th eupdated CSS' do
+        assert_match /green\.png/, last_response.body
       end
     end
   end

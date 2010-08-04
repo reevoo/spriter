@@ -10,6 +10,7 @@ module Rack
       @app = app
       @stylesheets_path = options[:stylesheets_path]
       @stylesheets_url_pattern = options[:stylesheets_url_pattern]
+      @images = []
       ::Spriter.assets_path = options[:assets_path]
       ::Spriter.sprite_image_path = options[:sprite_image_path]
       ::Spriter.sprite_image_url = options[:sprite_image_url]
@@ -56,8 +57,12 @@ module Rack
 
       if @generated_css.nil? or files.max{ |a,b| a.mtime <=> b.mtime }.mtime > @generated_at
         names = paths.map{ |p| p.sub(/\.spriter$/, '').sub(/^#{@stylesheets_path}\//, '') }
-        css = ::Spriter.transform(*files)
+
+        spriter = ::Spriter.new
+        css = spriter.transform(*(files + [@images]))
         css = [css] unless css.is_a? Array
+
+        @images = spriter.images
         @generated_at = Time.now
         @generated_css = Hash[*names.zip(css).flatten]
       end
