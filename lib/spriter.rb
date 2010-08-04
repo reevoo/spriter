@@ -7,11 +7,11 @@ class Spriter
     attr_accessor :sprite_image_url
 
     def transform(*args)
-      new(assets_path, sprite_image_path, sprite_image_url).transform(*args)
+      new.transform(*args)
     end
 
     def transform_files(*args)
-      new(assets_path, sprite_image_path, sprite_image_url).transform_files(*args)
+      new.transform_files(*args)
     end
 
     def image_dimensions(path)
@@ -20,7 +20,7 @@ class Spriter
     end
   end
 
-  def initialize(assets_path, sprite_image_path, sprite_image_url)
+  def initialize(assets_path = Spriter.assets_path, sprite_image_path = Spriter.sprite_image_path, sprite_image_url = Spriter.sprite_image_url)
     @assets_path, @sprite_image_path, @sprite_image_url = assets_path, sprite_image_path, sprite_image_url
     @images = []
     @y_offsets = {}

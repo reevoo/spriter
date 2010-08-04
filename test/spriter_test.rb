@@ -20,6 +20,21 @@ class SpriterTest < Test::Unit::TestCase
     end
   end
 
+  context 'a new Spriter instance' do
+    setup do
+      Spriter.assets_path = '/my/assets_path'
+      Spriter.sprite_image_path = '/sprite/image/path'
+      Spriter.sprite_image_url = '/sprite/image/url'
+    end
+
+    should 'use the options set on the Spriter class' do
+      spriter = Spriter.new
+      assert_equal '/my/assets_path', spriter.instance_variable_get(:@assets_path)
+      assert_equal '/sprite/image/path', spriter.instance_variable_get(:@sprite_image_path)
+      assert_equal '/sprite/image/url', spriter.instance_variable_get(:@sprite_image_url)
+    end
+  end
+
   context 'CSS with no -spriter rules' do
     setup do
       @css = <<-CSS
