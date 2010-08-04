@@ -2,8 +2,8 @@ Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "spriter"
-  s.version           = "0.10.0"
-  s.summary           = "Managers sprites and your css in a mega way."
+  s.version           = "0.11.0"
+  s.summary           = "Makes CSS sprites easy."
   s.author            = "Reevoo"
   s.homepage          = "http://www.reevoo.com"
 
