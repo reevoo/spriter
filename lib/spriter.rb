@@ -32,9 +32,8 @@ class Spriter
     new_css = inputs.inject([]) do |new_css, css|
       css = css.read if css.respond_to? :read
       new_css << css.gsub(image_matcher) do |matched|
-        indent = $1
-        terminator = $3
-        image = $2.strip.gsub(/(?:^['"]|['"]$)/, '')
+        indent, image, terminator = $1, $2, $3
+        image = image.strip.gsub(/(?:^['"]|['"]$)/, '')
         add_image(image)
         "#{indent}background: url(#{@sprite_image_url}) no-repeat 0 #{-y_offset(image)}#{y_offset(image) == 0 ? '' : 'px'}#{terminator} /* #{image} */"
       end
