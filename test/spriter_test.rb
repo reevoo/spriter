@@ -210,4 +210,37 @@ class SpriterTest < Test::Unit::TestCase
     end
   end
 
+  context 'converting a .spriter file when the images have not changed' do
+    setup do
+      css = ".test1 { -spriter-background: 'red.png'; }"
+      Spriter.transform(css)
+      Spriter.transform(css, ['red.png'])
+    end
+
+    before_should 'not update the sprites image' do
+      Spriter.any_instance.expects(:generate_sprite_image).once
+    end
+  end
+
+  context 'converting a .spriter file when the images have been reordered' do
+    setup do
+      Spriter.transform(".test1 { -spriter-background: 'red.png'; } \n .test2 { -spriter-background: 'green.png'; }")
+      Spriter.transform(".test1 { -spriter-background: 'green.png'; } \n .test2 { -spriter-background: 'red.png'; }", ['red.png', 'green.png'])
+    end
+
+    before_should 'update the sprites image' do
+      Spriter.any_instance.expects(:generate_sprite_image).twice
+    end
+  end
+
+  context 'converting a .spriter file when the images have changed' do
+    setup do
+      Spriter.transform(".test1 { -spriter-background: 'red.png'; }")
+      Spriter.transform(".test1 { -spriter-background: 'green.png'; }", ['red.png'])
+    end
+
+    before_should 'update the sprites image' do
+      Spriter.any_instance.expects(:generate_sprite_image).twice
+    end
+  end
 end

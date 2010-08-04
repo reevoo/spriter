@@ -6,4 +6,5 @@ rescue LoadError
 end
 
 require 'shoulda'
+require 'mocha'
 require 'spriter'

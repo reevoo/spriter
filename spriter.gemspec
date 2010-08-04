@@ -15,4 +15,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency("mini_magick")
   s.add_development_dependency("shoulda")
+  s.add_development_dependency("mocha")
 end

@@ -28,6 +28,8 @@ class Spriter
   end
 
   def transform(*inputs)
+    previous_image_list = inputs.last.is_a?(Array) ? inputs.pop : []
+
     image_matcher = /([^a-z])-spriter-background:\s*([^;\}]+)([;\}])/
     new_css = inputs.inject([]) do |new_css, css|
       css = css.read if css.respond_to? :read
@@ -39,7 +41,7 @@ class Spriter
       end
     end
 
-    generate_sprite_image
+    generate_sprite_image unless @images == previous_image_list
 
     if new_css.length == 1
       new_css.first
