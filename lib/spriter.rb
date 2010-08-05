@@ -15,8 +15,14 @@ class Spriter
     end
 
     def image_dimensions(path)
-      magick_image = MiniMagick::Image.from_file(path)
-      return magick_image[:width], magick_image[:height]
+      if path =~ /\.png$/
+        IO.read(path)[0x10..0x18].unpack('NN')
+      elsif path =~ /\.gif$/
+        IO.read(path)[6..10].unpack('SS')
+      else
+        magick_image = MiniMagick::Image.from_file(path)
+        [ magick_image[:width], magick_image[:height] ]
+      end
     end
   end
 
