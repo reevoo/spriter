@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "spriter"
-  s.version           = "0.11.0"
+  s.version           = "0.12.0"
   s.summary           = "Makes CSS sprites easy."
   s.author            = "Reevoo"
   s.homepage          = "http://www.reevoo.com"
