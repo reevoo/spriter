@@ -1,3 +1,7 @@
+# Deprecated
+
+We love spriter and used it for many years, however we no longer use it here at Reevoo in production so couldn't really recomend for anyone to use it in anger.  If you need to generate sprites in a Ruby app take a look at [compass](http://compass-style.org/help/tutorials/).
+
 # Spriter #
 
 [CSS sprites][1] are a simple way of combining lots of small images into a single large image and reducing the number of HTTP requests a web page has to make.  Spriter makes it easy to create and maintain CSS sprites in Ruby apps.
