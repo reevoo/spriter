@@ -18,15 +18,15 @@ module Rack
 
     def default_options
       defaults = {
-        :sprite_image_url => '/images/sprites.png',
+        :sprite_image_url => "/assets/sprites.png?t=#{Time.now.to_i}",
         :stylesheets_url_pattern => %r{stylesheets\/(.+)\.css$}
       }
 
       if defined? Rails
         defaults.merge(
           :stylesheets_path => File.join(Rails.root, *%w[ public stylesheets ]),
-          :assets_path => File.join(Rails.root, *%w[ public images sprite_assets ]),
-          :sprite_image_path => File.join(Rails.root, *%w[ public images sprites.png ])
+          :assets_path => File.join(Rails.root, *%w[ public assets sprite_assets ]),
+          :sprite_image_path => File.join(Rails.root, *%w[ public assets sprites.png ])
         )
       else
         defaults
