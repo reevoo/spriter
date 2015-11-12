@@ -1,6 +1,6 @@
 require "rubygems"
-require "rake/gempackagetask"
-require "rake/rdoctask"
+require "rubygems/package_task"
+require "rdoc/task"
 
 require "rake/testtask"
 Rake::TestTask.new do |t|
@@ -10,7 +10,7 @@ end
 
 task :default => ["test"]
 
-Rake::GemPackageTask.new(eval(File.read('spriter.gemspec'))) do |pkg|
+Gem::PackageTask.new(eval(File.read('spriter.gemspec'))) do |pkg|
 end
 
 # Generate documentation
